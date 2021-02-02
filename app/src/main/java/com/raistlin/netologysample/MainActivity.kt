@@ -1,13 +1,12 @@
 package com.raistlin.netologysample
 
-import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -51,18 +50,21 @@ class MainActivity : AppCompatActivity() {
                     showData(data)
                 }
             } catch (ex: Exception) {
-                showMessage(ex.message ?: "")
+                runOnUiThread {
+                    toggleProgress(false)
+                    showError(ex.message ?: "")
+                }
             }
         }
     }
 
-    @Suppress("DEPRECATION")
     private fun showHtmlTitle() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            dataTitle.text = Html.fromHtml(getString(R.string.data_title), Html.FROM_HTML_MODE_LEGACY)
-        } else {
-            dataTitle.text = Html.fromHtml(getString(R.string.data_title))
-        }
+        dataTitle.text = HtmlCompat.fromHtml(getString(R.string.data_title), HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
+    private fun showError(error: String) {
+        dataTitle.text = error
+        showMessage(error)
     }
 
     private fun showData(data: List<Theme>) {
@@ -77,8 +79,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showMessage(message: String) {
-        runOnUiThread {
-            Toast.makeText(this, "Error while accessing the file: $message", Toast.LENGTH_LONG).show()
-        }
+        Toast.makeText(this, "Error while accessing the file: $message", Toast.LENGTH_LONG).show()
     }
 }
