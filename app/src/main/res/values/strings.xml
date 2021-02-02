@@ -1,3 +1,14 @@
 <resources>
+
     <string name="app_name">Netology Sample</string>
+
+    <string name="data_title"><![CDATA[<font color=\'black\'>Изучайте</font> <font color=\'blue\'>актуальные темы</font>]]></string>
+    <string name="data_chat">Start chat</string>
+
+    <plurals name="data_courses">
+        <item quantity="one">%d курс</item>
+        <item quantity="few">%d курса</item>
+        <item quantity="other">%d курсов</item>
+    </plurals>
+
 </resources>
